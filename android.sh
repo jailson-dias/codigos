@@ -74,14 +74,14 @@ baixados=()
 #Downloading Android SDK e Studio
 echo -e "\nBaixando o android studio"
 # for link in "${links_f[@]}"; do
-# nome="$(echo "$links_f" | grep -Eo '([^/]*$)' )"
-# baixados+=($nome)
-# if [ ! -e "$download_dir/$nome" ]; then  
-#     (curl -L -C - "$links_f" -o "$download_dir/$nome") || (echo "Erro no download de $links_f" && exit 2)
-# else
-#     echo "Arquivo já baixado: $nome"
-#     continue
-# fi	
+nome="$(echo "$links_f" | grep -Eo '([^/]*$)' )"
+baixados+=($nome)
+if [ ! -e "$download_dir/$nome" ]; then  
+    (curl -L -C - "$links_f" -o "$download_dir/$nome") || (echo "Erro no download de $links_f" && exit 2)
+else
+    echo "Arquivo já baixado: $nome"
+    continue
+fi	
 # done
 
 if [ -z "$( which javac 2>/dev/null)" ]; then #verificando se precisa do jdk
@@ -104,7 +104,7 @@ if [ $javac = 1 ]; then
 fi
 echo "baixando o visual code"
 # code_name="$(echo "$site_visual" | grep -Eo '([^/]*$)' )"
-(curl -L -C - "$site_visual" -o "$download_dir/visual_code") || (echo "Erro no download de $site_visual" && exit 2)
+(curl -L -C - "$site_visual" -o "$download_dir/code.deb") || (echo "Erro no download de $site_visual" && exit 2)
 echo "Extraindo "
 for file in "${baixados[@]}"; do
     unzip -o "$download_dir/$file" -d "$download_dir" 2>/dev/null >&2
@@ -113,10 +113,10 @@ done
 if [ $javac = 1 ]; then
     tar -zxf "$download_dir/$java" -C "$download_dir" ; mv "$download_dir"/jdk*/ "$download_dir"/jdk
 fi
-ls "$download_dir/visual_code"
+ls "$download_dir"
 # echo "$code_name"
 # instalando o visual code
-dpkg-deb -x "$download_dir"/visual_code/code[.]*.deb .
+dpkg-deb -x "$download_dir"/code.deb "$download_dir"/visual_code
 
 
 
@@ -144,12 +144,12 @@ echo 'source $HOME/.androidrc' >> "$HOME"/.bashrc
 echo 'source $HOME/.androidrc' >> "$HOME"/.profile
 
 # visual code
-echo 'export visual_code='"$dest"'/visual_code/usr/share/applications/code.desktop' >> "$HOME"/.bashrc
-echo 'export visual_code='"$dest"'/visual_code/usr/share/applications/code.desktop' >> "$HOME"/.profile
+echo 'alias visual_code='"$dest"'/visual_code/usr/share/code/code' >> "$HOME"/.bashrc
+echo 'alias visual_code='"$dest"'/visual_code/usr/share/code/code' >> "$HOME"/.profile
 
 # android studio
-echo 'export android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.bashrc
-echo 'export android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.profile
+echo 'alias android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.bashrc
+echo 'alias android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.profile
 
 > "$HOME"/.androidrc #limpando arquivo
 echo 'export ANDROID_HOME='"$dest"'/Sdk' >> "$HOME"/.androidrc
