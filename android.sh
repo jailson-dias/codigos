@@ -148,8 +148,8 @@ echo 'alias visual_code='"$dest"'/visual_code/usr/share/code/code' >> "$HOME"/.b
 echo 'alias visual_code='"$dest"'/visual_code/usr/share/code/code' >> "$HOME"/.profile
 
 # android studio
-echo 'alias android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.bashrc
-echo 'alias android_studio='"$dest"'/android_studio/bin/studio.sh' >> "$HOME"/.profile
+echo 'alias android_studio='"$dest"'/android-studio/bin/studio.sh' >> "$HOME"/.bashrc
+echo 'alias android_studio='"$dest"'/android-studio/bin/studio.sh' >> "$HOME"/.profile
 
 > "$HOME"/.androidrc #limpando arquivo
 echo 'export ANDROID_HOME='"$dest"'/Sdk' >> "$HOME"/.androidrc
@@ -166,5 +166,7 @@ echo 'export PATH='"$dest"/android-studio/bin:'$PATH' >> "$HOME"/.androidrc
 # echo "pressione enter"
 # cd $ANDROID_HOME/tools/bin && ./avdmanager create avd --force --name emulator_android --abi google_apis/x86 --package 'system-images;android-25;google_apis;x86'
 echo -e "\nReabra os terminais em execução para atualizar."
+echo -e "\nPara executar o android studio coloque no terminal android_studio e aperte enter."
+echo -e "\nPara executar o visual code coloque no terminal visual_code e aperte enter."
 # #export STUDIO_JDK="$local"/../../java
 # #export HOME="$local"/../../HOME
