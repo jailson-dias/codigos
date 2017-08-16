@@ -22,5 +22,5 @@ else
         read abrir
     done
     abrir="$(echo $emulador | awk '{print $'$((6 + ($abrir - 1) * 25))'}')"
-    cd $ANDROID_HOME/tools && ./emulator -avd $abrir
+    cd $ANDROID_HOME/tools && ./emulator -use-system-libs -avd $abrir
 fi
