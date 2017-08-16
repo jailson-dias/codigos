@@ -1,13 +1,4 @@
 #!/bin/bash
-pkgs=( #lista de pacotes que serão instalados pelo sdkmanager
-    'platforms;android-25'
-    'tools'
-    'sources;android-25'
-    'build-tools;25.0.3'
-    'extras;google;m2repository'
-    'extras;android;m2repository'
-    'system-images;android-25;google_apis;x86' 
-)
 site_android="https://developer.android.com/studio/index.html"
 site_java="http://www.oracle.com/technetwork/pt/java/javase/downloads/index.html"
 site_visual="https://go.microsoft.com/fwlink/?LinkID=760868"
@@ -16,11 +7,6 @@ if [ -z "$(which curl)" ] || [ -z "$(which unzip)" ]; then #verificando ferramen
     echo "Certifique-se que esteja instalado o curl e o unzip."
     exit 1
 fi
-
-# sdk=0 #indica se baixara soh o sdk
-# if [ "$1" = "sdk" ]; then
-#     sdk=1
-# fi
 
 javac=0
 if [ "$2" = "jdk" ]; then
@@ -59,16 +45,11 @@ for link in "${links[@]}"; do
     if echo "$link" | grep -qE studio; then
         # echo -n "Android Studio: "
         links_f=$link
-        # echo "$link"
-    # elif  echo "$link" | grep -qE tools; then
-        # echo -n "SDK Tools: "
     else
         continue #eliminando links indesejáveis
     fi
-    # links_f+=($link)
 done
 
-echo "$links_f"
 baixados=()
 
 #Downloading Android SDK e Studio
@@ -113,27 +94,9 @@ done
 if [ $javac = 1 ]; then
     tar -zxf "$download_dir/$java" -C "$download_dir" ; mv "$download_dir"/jdk*/ "$download_dir"/jdk
 fi
-ls "$download_dir"
-# echo "$code_name"
 # instalando o visual code
 dpkg-deb -x "$download_dir"/code.deb "$download_dir"/visual_code
 
-
-
-# #Instalando ferramentas do SDK
-# mkdir -p $download_dir/Sdk && mv $download_dir/tools $download_dir/Sdk
-# param=""
-# for i in "${pkgs[@]}"; do #concatenando parâmetros para usar no sdkmanager
-#     param="$param $i"
-# done
-# echo 'Serão instalados:'$param
-
-# (echo y | $download_dir/Sdk/tools/bin/sdkmanager $param 2>/dev/null >&2) &
-
-# #verificando se sdk ainda está baixando
-# while (ps auxw | grep -qi sdkmanage[r] 2>/dev/null); do
-#     echo -n '.'
-# done
 # echo -e '\nOk'
 rm "${download_dir:?}"/{*.tar.gz,*.zip,*.deb} 2>/dev/null #tirando arquivos compactados
 (mv "$download_dir" "$dest") || (echo "Não foi possível instalar em $dest." && exit 4) #movendo para destino final
@@ -160,13 +123,7 @@ if [ $javac = 1 ];then
     echo 'export PATH=$JDK_HOME/bin:$PATH' >> "$HOME"/.androidrc
 fi
 echo 'export PATH=$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH' >> "$HOME"/.androidrc
-# if [ "$sdk" = 0 ];then
 echo 'export PATH='"$dest"/android-studio/bin:'$PATH' >> "$HOME"/.androidrc
-# fi
-# echo "pressione enter"
-# cd $ANDROID_HOME/tools/bin && ./avdmanager create avd --force --name emulator_android --abi google_apis/x86 --package 'system-images;android-25;google_apis;x86'
 echo -e "\nReabra os terminais em execução para atualizar."
 echo -e "\nPara executar o android studio coloque no terminal android_studio e aperte enter."
 echo -e "\nPara executar o visual code coloque no terminal visual_code e aperte enter."
-# #export STUDIO_JDK="$local"/../../java
-# #export HOME="$local"/../../HOME
