@@ -31,13 +31,14 @@ mkdir -p $download_dir #confirmando a existência
 link=($( curl -L "$site" 2> /dev/null | grep -Eo 'http[s]?://([^"]*linux-x64.tar.xz)' | sort | uniq ) ) 2>/dev/null || (echo "Erro ao tentar alcançar $site" && exit 2)
 echo "baixando o node JS"
 (cd $download_dir && curl -L -C - "$link" -O) || (echo "Erro no download de $link" && exit 2)
-tar xf "$download_dir/*.tar.xz" -C "$download_dir" 2>/dev/null >&2
+nome="$(echo "$link" | grep -Eo '([^/]*$)' )"
+(cd $download_dir && tar xf *.tar.xz)
 echo -e '\nOk'
 rm "${download_dir:?}"/*.tar.xz 2>/dev/null #tirando arquivos compactados
 (mv "$download_dir" "$dest") || (echo "Não foi possível instalar em $dest." && exit 4) #movendo para destino final
 
 # # android studio
-echo 'export PATH='$dest'/node-v8.4.0-linux-x64/bin/:'$PATH >> "$HOME"/.bashrc
-echo 'export PATH='$dest'/node-v8.4.0-linux-x64/bin/:'$PATH >> "$HOME"/.profile
+echo 'export PATH='$dest'/'$nome'/bin/:'$PATH >> "$HOME"/.bashrc
+echo 'export PATH='$dest'/'$nome'/bin/:'$PATH >> "$HOME"/.profile
 
 echo -e "\nReabra os terminais em execução para atualizar."
