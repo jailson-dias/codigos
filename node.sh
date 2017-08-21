@@ -38,7 +38,7 @@ rm "${download_dir:?}"/*.tar.xz 2>/dev/null #tirando arquivos compactados
 (mv "$download_dir" "$dest") || (echo "Não foi possível instalar em $dest." && exit 4) #movendo para destino final
 
 # # android studio
-echo 'export PATH='$dest'/'$nome'/bin/:'$PATH >> "$HOME"/.bashrc
-echo 'export PATH='$dest'/'$nome'/bin/:'$PATH >> "$HOME"/.profile
+echo "export PATH=$dest/${nome//.tar.xz}/bin/:"$PATH >> "$HOME"/.bashrc
+echo "export PATH=$dest/${nome//.tar.xz}/bin/:"$PATH >> "$HOME"/.profile
 
 echo -e "\nReabra os terminais em execução para atualizar."
